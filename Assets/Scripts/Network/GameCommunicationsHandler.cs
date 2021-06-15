@@ -87,4 +87,15 @@ public class GameCommunicationsHandler : MonoBehaviourPunCallbacks
     {
         SelectableUnit.selectableUnits[(uint)id].MoveTo(new Vector2Int(x, y));
     }
+
+    public void PlaceTile(Tile.TileType tileType, Vector2Int position)
+    {
+        photonView.RPC(nameof(PlaceTileRPC), RpcTarget.AllViaServer, (int)tileType, position.x, position.y);
+    }
+
+    [PunRPC]
+    public void PlaceTileRPC(int tileType, int x, int y)
+    {
+        FindObjectOfType<Board>().PlaceTileAt((Tile.TileType)tileType, x, y);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using InfenixTools.DesignPatterns;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,6 +74,9 @@ public class PickRoleState : State<PickRoleState, GameManager>
         FindObjectOfType<TopViewCamera>().automaticallyRotate = false;
 
         objectInstance.AssignPlayers(humanPlayer, godPlayer);
+
+        if (PhotonNetwork.IsMasterClient)
+            FindObjectOfType<Board>().PlaceTemples();
     }
 
     public void SwapRoles()

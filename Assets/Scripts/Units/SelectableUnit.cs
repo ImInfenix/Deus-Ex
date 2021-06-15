@@ -64,14 +64,20 @@ public class SelectableUnit : MonoBehaviour
             selectionIndicator = Instantiate(selectionIndicatorPrefab);
             selectionIndicator.transform.SetParent(selectionIndicatorAnchorPoint, false);
 
-            foreach (var tile in FindObjectOfType<Board>().GetNeighbours(gridPosition))
+            foreach (var tile in FindObjectOfType<Board>().GetFourNeighbours(gridPosition))
             {
+                if (unitType == GameManager.PlayerType.Human && (tile.type == Tile.TileType.Temple || tile.type == Tile.TileType.Mountain))
+                {
+                    continue;
+                }
+                else if (unitType == GameManager.PlayerType.God && tile.type == Tile.TileType.Mountain)
+                    continue;
                 tile.IsHighlighted = true;
             }
         }
         else
         {
-            foreach (var tile in FindObjectOfType<Board>().GetNeighbours(gridPosition))
+            foreach (var tile in FindObjectOfType<Board>().GetFourNeighbours(gridPosition))
             {
                 tile.IsHighlighted = false;
             }
